@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 import { TinaEditProvider } from "tinacms/dist/edit-state";
+import '../styles/globals.css'
 
 // @ts-ignore FIXME: default export needs to be 'ComponentType<{}>
 const TinaCMS = dynamic(() => import("tinacms"), { ssr: false });
@@ -23,6 +24,10 @@ const App = ({ Component, pageProps }) => {
               cms.flags.set("tina-admin", true);
             }}
             apiURL={apiURL}
+            mediaStore={async() => {
+              const pack = await import('next-tinacms-cloudinary')
+              return pack.TinaCloudCloudinaryMediaStore
+            }}
           >
             <Component {...pageProps} />
           </TinaCMS>
